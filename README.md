@@ -12,9 +12,7 @@ RR8_friends-report/
 
 ├── friends.html # Rendered HTML report
 
-├── img/
-
-│ └── logo.jpeg # Logo from the show
+├── logo.jpeg # Logo from the show
 
 ## Contents of the Report
 
