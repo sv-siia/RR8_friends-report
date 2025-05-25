@@ -1,0 +1,119 @@
+---
+title: "Friends TV Show: Viewership Analysis"
+author: "Anastasiia Sviridova (466520)"
+format:
+  html:
+    toc: true
+    theme: cosmo
+    toc-depth: 2
+jupyter: python3
+---
+
+## *Friends* — A Brief Overview
+
+**Friends** is an American sitcom that aired on NBC from 1994 to 2004, spanning **10 seasons** and **236 episodes**. Created by *David Crane* and *Marta Kauffman*, the show follows the personal and professional lives of six friends living in Manhattan.
+
+The show is regarded as one of the most influential and beloved sitcoms of all time, consistently drawing millions of viewers during its original run.
+
+![](logo.jpeg)
+
+## Loading and Preparing the Data
+
+```{python}
+#| echo: false
+import pandas as pd
+import matplotlib.pyplot as plt
+```
+
+```{python}
+
+# Load the dataset
+df = pd.read_csv("data.csv")
+
+# Clean up if needed
+df["U.S. viewers"] = df["U.S. viewers"].astype(str).str.extract(r"([\d.]+)").astype(float)
+df["U.S. viewers"] = pd.to_numeric(df["U.S. viewers"], errors="coerce")
+
+df.head()
+```
+
+## Basic Statistics
+
+```{python}
+print("Total number of episodes:", len(df))
+print("Average viewership (millions):", round(df["U.S. viewers"].mean(), 2))
+print("Max viewership (millions):", df["U.S. viewers"].max())
+print("Min viewership (millions):", df["U.S. viewers"].min())
+```
+
+## Viewership Over Time
+
+```{python}
+
+plt.figure(figsize=(12, 5))
+plt.plot(df["No. overall"], df["U.S. viewers"], marker='o', linestyle='-')
+plt.title("Friends: Episode Viewership Over Time")
+plt.xlabel("Episode Number")
+plt.ylabel("Viewership (millions)")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+```
+
+## Average Viewership by Season
+
+```{python}
+# The viewership drop between season 3 and 5
+avg_s3 = df[df["season"] == 3]["U.S. viewers"].mean()
+avg_s5 = df[df["season"] == 5]["U.S. viewers"].mean()
+
+viewership_drop = round(avg_s3 - avg_s5, 2)
+
+avg_s3, avg_s5, viewership_drop
+```
+
+```{python}
+# Group by season and find the average
+season_avg = df.groupby("season")["U.S. viewers"].mean()
+
+# Find the season with the lowest average rating
+lowest_season = season_avg.idxmin()
+lowest_avg = round(season_avg.min(), 2)
+
+lowest_season, lowest_avg
+```
+
+```{python}
+season_avg = df.groupby("season")["U.S. viewers"].mean()
+
+plt.figure(figsize=(10, 5))
+season_avg.plot(kind='bar', color='skyblue')
+plt.title("Average Viewership per Season")
+plt.xlabel("Season")
+plt.ylabel("Average Viewers (millions)")
+plt.xticks(rotation=0)
+plt.grid(axis='y')
+plt.tight_layout()
+plt.show()
+```
+
+## Interpretation of Viewership Trends
+
+The viewership for *Friends* started very strong, with the pilot episode drawing **21.5 million** viewers.
+
+Season 1 maintained high ratings, averaging around **25 million viewers**.  
+However, viewership gradually declined toward the later seasons.
+```{python}
+#| echo: false
+print(f"""
+- Between Season 3 and Season 5, average viewership decreased from {avg_s3:.1f} to {avg_s5:.1f} million,
+a drop of {viewership_drop} million viewers.
+
+- The lowest average viewership occurred in Season {lowest_season}, with only {lowest_avg} million viewers on average.
+""")
+```
+
+Friends reached its peak viewership around episode 45 with over 52 million viewers. After Season 5, the viewership gradually declined, though the final episode also saw a significant spike.
+
+Despite the gradual decline, *Friends* remained one of the most watched TV shows throughout its run and continues to be popular in syndication and streaming platforms today.
+
