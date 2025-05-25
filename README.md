@@ -2,14 +2,19 @@
 
 This project presents a short exploratory data analysis (EDA) of the iconic sitcom **Friends**, focusing on its TV viewership over all 10 seasons.
 
-## 📁 Project Structure
+## Project Structure
 
 RR8_friends-report/
+
 ├── data.csv # Cleaned dataset with all episodes
+
 ├── friends.qmd # Quarto report source file
+
 ├── friends.html # Rendered HTML report
+
 ├── img/
-│ └── logo.jpeg # Logo or screenshot from the show
+
+│ └── logo.jpeg # Logo from the show
 
 ## Contents of the Report
 
